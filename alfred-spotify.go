@@ -105,18 +105,19 @@ func runTracks(title string) {
 		// icon.Value = album.Images
 
 		id := track.ID.String()
-		url := "spotify:track:" + id
+		trackURL := "spotify:track:" + id
+		albumURL := "spotify:album:" + track.Album.ID.String()
 
 		wf.NewItem(track.Artists[0].Name + " - " + track.Name).
-			// Subtitle(album.Album.Title).
+			Subtitle(track.Album.Name).
 			Valid(true).
 			// Icon(&icon).
-			Arg(url).
-			Quicklook(url).
+			Arg(trackURL + " " + albumURL).
+			Quicklook(trackURL).
 			UID("album" + id).
 			NewModifier("cmd").
 			Subtitle("Open in Spotify App").
-			Arg(getLocalURL(url))
+			Arg(getLocalURL(trackURL))
 	}
 
 	// And send the results to Alfred
