@@ -82,7 +82,7 @@ func runAlbum(title string) {
 			Quicklook(url).
 			UID("album" + id).
 			NewModifier("cmd").
-			Subtitle("Open in Deezer App").
+			Subtitle("Open in Spotify App").
 			Arg(getLocalURL(url))
 	}
 
@@ -95,4 +95,30 @@ func runArtist(title string) {
 
 func runTracks(title string) {
 
+	results, err := client.Search(title, spotify.SearchTypeTrack)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, track := range results.Tracks.Tracks {
+		// var icon aw.Icon
+		// icon.Value = album.Images
+
+		id := track.ID.String()
+		url := "spotify:track:" + id
+
+		wf.NewItem(track.Artists[0].Name + " - " + track.Name).
+			// Subtitle(album.Album.Title).
+			Valid(true).
+			// Icon(&icon).
+			Arg(url).
+			Quicklook(url).
+			UID("album" + id).
+			NewModifier("cmd").
+			Subtitle("Open in Spotify App").
+			Arg(getLocalURL(url))
+	}
+
+	// And send the results to Alfred
+	wf.SendFeedback()
 }
