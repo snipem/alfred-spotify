@@ -13,14 +13,10 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
-// aw.Workflow is the main API
 var wf *aw.Workflow
 var client spotify.Client
 
 func init() {
-	// Create a new *Workflow using default configuration
-	// (workflow settings are read from the environment variables
-	// set by Alfred)
 	wf = aw.New()
 
 	config := &clientcredentials.Config{
@@ -37,8 +33,6 @@ func init() {
 }
 
 func main() {
-	// Wrap your entry point with Run() to catch and log panics and
-	// show an error in Alfred instead of silently dying
 	wf.Run(run)
 }
 
@@ -68,16 +62,12 @@ func runAlbum(title string) {
 	}
 
 	for _, album := range results.Albums.Albums {
-		// var icon aw.Icon
-		// icon.Value = album.Images
 
 		id := album.ID.String()
 		url := "spotify:album:" + id
 
 		wf.NewItem(album.Artists[0].Name + " - " + album.Name).
-			// Subtitle(album.Album.Title).
 			Valid(true).
-			// Icon(&icon).
 			Arg(url).
 			Quicklook(url).
 			UID("album" + id).
@@ -86,7 +76,6 @@ func runAlbum(title string) {
 			Arg(getLocalURL(url))
 	}
 
-	// And send the results to Alfred
 	wf.SendFeedback()
 }
 func runArtist(title string) {
@@ -101,8 +90,6 @@ func runTracks(title string) {
 	}
 
 	for _, track := range results.Tracks.Tracks {
-		// var icon aw.Icon
-		// icon.Value = album.Images
 
 		id := track.ID.String()
 		trackURL := "spotify:track:" + id
@@ -111,7 +98,6 @@ func runTracks(title string) {
 		wf.NewItem(track.Artists[0].Name + " - " + track.Name).
 			Subtitle(track.Album.Name).
 			Valid(true).
-			// Icon(&icon).
 			Arg(trackURL + " " + albumURL).
 			Quicklook(trackURL).
 			UID("album" + id).
@@ -120,6 +106,5 @@ func runTracks(title string) {
 			Arg(getLocalURL(trackURL))
 	}
 
-	// And send the results to Alfred
 	wf.SendFeedback()
 }
