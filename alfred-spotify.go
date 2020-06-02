@@ -1,12 +1,12 @@
 package main
 
-// run: alfred_workflow_data=workflow alfred_workflow_cache=/tmp/alfred alfred_workflow_bundleid=mk_testing go run alfred-deezer.go track mötley
+// run: make test
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	aw "github.com/deanishe/awgo"
 	spotify "github.com/zmb3/spotify"
@@ -51,10 +51,7 @@ func run() {
 
 }
 
-func getLocalURL(url string) string {
-	return strings.Replace(url, "https://", "deezer://", -1)
-}
-
+// runAlbum runs the workflow for album searching
 func runAlbum(title string) {
 	results, err := client.Search(title, spotify.SearchTypeAlbum)
 	if err != nil {
@@ -66,22 +63,37 @@ func runAlbum(title string) {
 		id := album.ID.String()
 		url := "spotify:album:" + id
 
-		wf.NewItem(album.Artists[0].Name + " - " + album.Name).
+		item := wf.NewItem(album.Artists[0].Name + " - " + album.Name).
 			Valid(true).
 			Arg(url).
 			Quicklook(url).
-			UID("album" + id).
-			NewModifier("cmd").
+			UID("album" + id)
+
+		item.
+			NewModifier("alt").
 			Subtitle("Open in Spotify App").
-			Arg(getLocalURL(url))
+			Arg(url)
+
+		item.
+			NewModifier("cmd").
+			Subtitle("Open in Spotify Browser").
+			Arg(getBrowserURL(album.ID, "album"))
+
 	}
 
 	wf.SendFeedback()
 }
+
+func getBrowserURL(id spotify.ID, spotifyType string) string {
+	return fmt.Sprintf("https://open.spotify.com/%s/%s", spotifyType, id)
+}
+
+// runArtist runs the workflow for artist searching
 func runArtist(title string) {
 	// TODO implement me
 }
 
+// runTracks runs the workflow for track searching
 func runTracks(title string) {
 
 	results, err := client.Search(title, spotify.SearchTypeTrack)
@@ -95,15 +107,22 @@ func runTracks(title string) {
 		trackURL := "spotify:track:" + id
 		albumURL := "spotify:album:" + track.Album.ID.String()
 
-		wf.NewItem(track.Artists[0].Name + " - " + track.Name).
+		item := wf.NewItem(track.Artists[0].Name + " - " + track.Name).
 			Subtitle(track.Album.Name).
 			Valid(true).
 			Arg(trackURL + " " + albumURL).
 			Quicklook(trackURL).
-			UID("album" + id).
-			NewModifier("cmd").
+			UID("album" + id)
+
+		item.
+			NewModifier("alt").
 			Subtitle("Open in Spotify App").
-			Arg(getLocalURL(trackURL))
+			Arg(trackURL)
+
+		item.
+			NewModifier("cmd").
+			Subtitle("Open in Spotify Browser").
+			Arg(getBrowserURL(track.ID, "track"))
 	}
 
 	wf.SendFeedback()
