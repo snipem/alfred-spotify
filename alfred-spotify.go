@@ -125,7 +125,35 @@ func getBrowserURL(id spotify.ID, spotifyType string) string {
 
 // runArtist runs the workflow for artist searching
 func runArtist(title string) {
-	// TODO implement me
+	results, err := client.Search(title, spotify.SearchTypeArtist)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, artist := range results.Artists.Artists {
+
+		id := artist.ID.String()
+		artistURI := "spotify:artist:" + id
+
+		item := wf.NewItem(fmt.Sprintf("%s", artist.Name)).
+			Valid(true).
+			Arg(artistURI).
+			Quicklook(artistURI).
+			UID(id)
+
+		item.
+			NewModifier("alt").
+			Subtitle("Open in Spotify App").
+			Arg(artistURI)
+
+		item.
+			NewModifier("cmd").
+			Subtitle("Open in Spotify Browser").
+			Arg(getBrowserURL(artist.ID, "artist"))
+
+	}
+
+	wf.SendFeedback()
 }
 
 // runTracks runs the workflow for track searching
