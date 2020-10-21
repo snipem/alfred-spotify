@@ -71,7 +71,7 @@ func runAlbum(title string) {
 		item := wf.NewItem(fmt.Sprintf("%s - %s", album.Artists[0].Name, album.Name)).
 			Valid(true).
 			Arg(albumURI).
-			Quicklook(albumURI).
+			Quicklook(album.Images[0].URL).
 			UID(id)
 
 		item.
@@ -177,7 +177,7 @@ func runTracks(title string) {
 			Subtitle(track.Album.Name).
 			Valid(true).
 			Arg(fmt.Sprintf("%s %s", trackURL, albumURL)).
-			Quicklook(trackURL).
+			Quicklook(track.Album.Images[0].URL).
 			UID("album" + id)
 
 		item.
