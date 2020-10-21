@@ -71,8 +71,11 @@ func runAlbum(title string) {
 		item := wf.NewItem(fmt.Sprintf("%s - %s (%d)", album.Artists[0].Name, album.Name, album.ReleaseDateTime().Year())).
 			Valid(true).
 			Arg(albumURI).
-			Quicklook(album.Images[0].URL).
 			UID(id)
+
+        if  len(album.Images) > 0 {
+            item.Quicklook(album.Images[0].URL)
+        }
 
 		item.
 			NewModifier("alt").
@@ -104,8 +107,11 @@ func runPlaylist(title string) {
 		item := wf.NewItem(fmt.Sprintf("%s by %s", playlist.Name, playlist.Owner.DisplayName)).
 			Valid(true).
 			Arg(playlistURI).
-			Quicklook(playlist.Images[0].URL).
 			UID(id)
+
+        if  len(playlist.Images) > 0 {
+            item.Quicklook(playlist.Images[0].URL)
+        }
 
 		item.
 			NewModifier("alt").
@@ -141,8 +147,11 @@ func runArtist(title string) {
 		item := wf.NewItem(artist.Name).
 			Valid(true).
 			Arg(artistURI).
-			Quicklook(artist.Images[0].URL).
 			UID(id)
+
+        if  len(artist.Images) > 0 {
+            item.Quicklook(artist.Images[0].URL)
+        }
 
 		item.
 			NewModifier("alt").
@@ -177,8 +186,11 @@ func runTracks(title string) {
 			Subtitle(fmt.Sprintf("%s (%d)", track.Album.Name, track.Album.ReleaseDateTime().Year())).
 			Valid(true).
 			Arg(fmt.Sprintf("%s %s", trackURL, albumURL)).
-			Quicklook(track.Album.Images[0].URL).
 			UID("album" + id)
+
+        if  len(track.Album.Images) > 0 {
+            item.Quicklook(track.Album.Images[0].URL)
+        }
 
 		item.
 			NewModifier("alt").
