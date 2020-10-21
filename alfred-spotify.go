@@ -36,6 +36,7 @@ func main() {
 	wf.Run(run)
 }
 
+// run runs the workflow as defined by awgo
 func run() {
 	contentType := os.Args[1]
 	title := os.Args[2]
@@ -128,6 +129,7 @@ func runPlaylist(title string) {
 	wf.SendFeedback()
 }
 
+// getBrowserURL returns the browser url for a spotify id based on the spotifyType
 func getBrowserURL(id spotify.ID, spotifyType string) string {
 	return fmt.Sprintf("https://open.spotify.com/%s/%s", spotifyType, id)
 }
