@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 install:
-	go build -o ${HOME}/cloud/data/alfred/Alfred.alfredpreferences/workflows/user.workflow.D965F327-9F53-4BE1-BE8E-AD4E955CB629/alfred-spotifyspotify
+	go build -o ${HOME}/cloud/data/alfred/Alfred.alfredpreferences/workflows/user.workflow.D965F327-9F53-4BE1-BE8E-AD4E955CB629/alfred-spotify
 
 watch:
 	ls alfred-spotify.go | entr make install

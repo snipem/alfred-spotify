@@ -45,6 +45,8 @@ func run() {
 		runTracks(title)
 	case "album":
 		runAlbum(title)
+	case "playlist":
+		runPlaylist(title)
 	case "artist":
 		runArtist(title)
 	}
@@ -61,23 +63,56 @@ func runAlbum(title string) {
 	for _, album := range results.Albums.Albums {
 
 		id := album.ID.String()
-		url := "spotify:album:" + id
+		albumURI := "spotify:album:" + id
 
 		item := wf.NewItem(album.Artists[0].Name + " - " + album.Name).
 			Valid(true).
-			Arg(url).
-			Quicklook(url).
-			UID("album" + id)
+			Arg(albumURI).
+			Quicklook(albumURI).
+			UID(id)
 
 		item.
 			NewModifier("alt").
 			Subtitle("Open in Spotify App").
-			Arg(url)
+			Arg(albumURI)
 
 		item.
 			NewModifier("cmd").
 			Subtitle("Open in Spotify Browser").
 			Arg(getBrowserURL(album.ID, "album"))
+
+	}
+
+	wf.SendFeedback()
+}
+
+// runAlbum runs the workflow for playlist searching
+func runPlaylist(title string) {
+	results, err := client.Search(title, spotify.SearchTypePlaylist)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, playlist := range results.Playlists.Playlists {
+
+		id := playlist.ID.String()
+		playlistURI := "spotify:playlist:" + id
+
+		item := wf.NewItem(fmt.Sprintf("%s by %s", playlist.Name, playlist.Owner.DisplayName)).
+			Valid(true).
+			Arg(playlistURI).
+			Quicklook(playlistURI).
+			UID(id)
+
+		item.
+			NewModifier("alt").
+			Subtitle("Open in Spotify App").
+			Arg(playlistURI)
+
+		item.
+			NewModifier("cmd").
+			Subtitle("Open in Spotify Browser").
+			Arg(getBrowserURL(playlist.ID, "playlist"))
 
 	}
 
