@@ -104,7 +104,7 @@ func runPlaylist(title string) {
 		item := wf.NewItem(fmt.Sprintf("%s by %s", playlist.Name, playlist.Owner.DisplayName)).
 			Valid(true).
 			Arg(playlistURI).
-			Quicklook(playlistURI).
+			Quicklook(playlist.Images[0].URL).
 			UID(id)
 
 		item.
