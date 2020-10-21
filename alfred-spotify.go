@@ -138,7 +138,7 @@ func runArtist(title string) {
 		id := artist.ID.String()
 		artistURI := "spotify:artist:" + id
 
-		item := wf.NewItem(fmt.Sprintf("%s", artist.Name)).
+		item := wf.NewItem(artist.Name).
 			Valid(true).
 			Arg(artistURI).
 			Quicklook(artistURI).
