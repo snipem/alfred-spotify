@@ -49,6 +49,9 @@ func run() {
 		runPlaylist(title)
 	case "artist":
 		runArtist(title)
+    default:
+        fmt.Fprintf(os.Stderr, "Unknown option %s\n", contentType)
+        os.Exit(1)
 	}
 
 }
