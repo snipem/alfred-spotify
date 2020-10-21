@@ -65,7 +65,7 @@ func runAlbum(title string) {
 		id := album.ID.String()
 		albumURI := "spotify:album:" + id
 
-		item := wf.NewItem(album.Artists[0].Name + " - " + album.Name).
+		item := wf.NewItem(fmt.Sprintf("%s - %s", album.Artists[0].Name, album.Name)).
 			Valid(true).
 			Arg(albumURI).
 			Quicklook(albumURI).
@@ -142,10 +142,10 @@ func runTracks(title string) {
 		trackURL := "spotify:track:" + id
 		albumURL := "spotify:album:" + track.Album.ID.String()
 
-		item := wf.NewItem(track.Artists[0].Name + " - " + track.Name).
+		item := wf.NewItem(fmt.Sprintf("%s - %s", track.Artists[0].Name, track.Name)).
 			Subtitle(track.Album.Name).
 			Valid(true).
-			Arg(trackURL + " " + albumURL).
+			Arg(fmt.Sprintf("%s %s", trackURL, albumURL)).
 			Quicklook(trackURL).
 			UID("album" + id)
 
