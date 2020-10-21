@@ -141,7 +141,7 @@ func runArtist(title string) {
 		item := wf.NewItem(artist.Name).
 			Valid(true).
 			Arg(artistURI).
-			Quicklook(artistURI).
+			Quicklook(artist.Images[0].URL).
 			UID(id)
 
 		item.
