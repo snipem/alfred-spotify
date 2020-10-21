@@ -86,7 +86,7 @@ func runAlbum(title string) {
 	wf.SendFeedback()
 }
 
-// runAlbum runs the workflow for playlist searching
+// runPlaylist runs the workflow for playlist searching
 func runPlaylist(title string) {
 	results, err := client.Search(title, spotify.SearchTypePlaylist)
 	if err != nil {
