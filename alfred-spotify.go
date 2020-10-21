@@ -16,6 +16,7 @@ import (
 var wf *aw.Workflow
 var client spotify.Client
 
+// init is called by awgo on first run for initialization
 func init() {
 	wf = aw.New()
 
