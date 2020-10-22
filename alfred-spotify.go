@@ -28,6 +28,7 @@ func init() {
 	token, err := config.Token(context.Background())
 	if err != nil {
 		log.Fatalf("couldn't get token: %v", err)
+        wf.FatalError(err)
 	}
 
 	client = spotify.Authenticator{}.NewClient(token)
@@ -62,7 +63,7 @@ func run() {
 func runAlbum(title string) {
 	results, err := client.Search(title, spotify.SearchTypeAlbum)
 	if err != nil {
-		log.Fatal(err)
+        wf.FatalError(err)
 	}
 
 	for _, album := range results.Albums.Albums {
@@ -98,7 +99,7 @@ func runAlbum(title string) {
 func runPlaylist(title string) {
 	results, err := client.Search(title, spotify.SearchTypePlaylist)
 	if err != nil {
-		log.Fatal(err)
+        wf.FatalError(err)
 	}
 
 	for _, playlist := range results.Playlists.Playlists {
@@ -139,7 +140,7 @@ func getBrowserURL(id spotify.ID, spotifyType string) string {
 func runArtist(title string) {
 	results, err := client.Search(title, spotify.SearchTypeArtist)
 	if err != nil {
-		log.Fatal(err)
+        wf.FatalError(err)
 	}
 
 	for _, artist := range results.Artists.Artists {
@@ -176,7 +177,7 @@ func runTracks(title string) {
 
 	results, err := client.Search(title, spotify.SearchTypeTrack)
 	if err != nil {
-		log.Fatal(err)
+        wf.FatalError(err)
 	}
 
 	for _, track := range results.Tracks.Tracks {
