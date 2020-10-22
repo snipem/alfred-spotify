@@ -6,7 +6,7 @@ Alfred-Spotify is an [Alfred](https://www.alfredapp.com/) workflow and searches 
 
 * tracks (keyword: `sp`)
 * albums (`spa`)
-* artists (`spart`)
+* artists (`spar`)
 * and playlists (`spl`)
 
 ## Download
