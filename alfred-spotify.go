@@ -72,6 +72,7 @@ func runAlbum(title string) {
 		albumURI := "spotify:album:" + id
 
 		item := wf.NewItem(fmt.Sprintf("%s - %s (%d)", album.Artists[0].Name, album.Name, album.ReleaseDateTime().Year())).
+			Subtitle("Album").
 			Valid(true).
 			Arg(albumURI).
 			UID(id)
@@ -108,6 +109,7 @@ func runPlaylist(title string) {
 		playlistURI := "spotify:playlist:" + id
 
 		item := wf.NewItem(fmt.Sprintf("%s by %s", playlist.Name, playlist.Owner.DisplayName)).
+			Subtitle("Playlist").
 			Valid(true).
 			Arg(playlistURI).
 			UID(id)
@@ -149,6 +151,7 @@ func runArtist(title string) {
 		artistURI := "spotify:artist:" + id
 
 		item := wf.NewItem(artist.Name).
+			Subtitle("Artist").
 			Valid(true).
 			Arg(artistURI).
 			UID(id)
@@ -187,7 +190,7 @@ func runTracks(title string) {
 		albumURL := "spotify:album:" + track.Album.ID.String()
 
 		item := wf.NewItem(fmt.Sprintf("%s - %s", track.Artists[0].Name, track.Name)).
-			Subtitle(fmt.Sprintf("%s (%d)", track.Album.Name, track.Album.ReleaseDateTime().Year())).
+			Subtitle(fmt.Sprintf("Track - %s (%d)", track.Album.Name, track.Album.ReleaseDateTime().Year())).
 			Valid(true).
 			Arg(fmt.Sprintf("%s %s", trackURL, albumURL)).
 			UID("album" + id)
